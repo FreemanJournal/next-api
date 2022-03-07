@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 export default function CommentPage() {
     const [comments, setComments] = useState([])
     const [comment, setComment] = useState('')
+    const [editable, setEditable] = useState(false)
     const fetchComments = async () => {
         const response = await fetch('/api/comments')
         const data = await response.json()
@@ -17,15 +18,21 @@ export default function CommentPage() {
             }
         })
         const data = await response.json();
-        console.log(data);
+        fetchComments()
     }
-    const deleteHandler = async (commentId)=>{
-        const response = await fetch(`/api/comments/${commentId}`,{
-            method:"DELETE"
+    const deleteHandler = async (commentId) => {
+        const response = await fetch(`/api/comments/${commentId}`, {
+            method: "DELETE"
         })
         const data = await response.json();
-        console.log(data);
         fetchComments();
+
+    }
+    const editHandler = (id) => {
+        setEditable(prev => !prev)
+    }
+    const saveHandler = (id) =>{
+        setEditable(prev => !prev)
 
     }
     return (
@@ -44,7 +51,10 @@ export default function CommentPage() {
                     <p>
                         {comment.id}.{comment.text}
                     </p>
-                    <button onClick={()=>deleteHandler(comment.id)}>Delete</button>
+                    {/* <input type="text" value={comment.text} style={{ display: `${editable?"block":"none"}` }} /><br /> */}
+                    <button onClick={() => deleteHandler(comment.id)}>Delete</button>
+                    <button onClick={() => editHandler(comment.id)}>Edit</button>
+                    <button onClick={() => saveHandler(comment.id)}>Save</button>
                 </div>
             ))}
         </div>

@@ -5,7 +5,7 @@ export const comments = [
     },
     {
         id: 2,
-        text: "The is the Second comment"
+        text: "The is the Mom comment"
     },
     {
         id: 3,
